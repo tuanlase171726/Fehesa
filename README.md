@@ -9,6 +9,7 @@
   - Customer(cus)
 
 - Functions:
+
 | Actor | Functions | Description |
 | --- | --- | --- |
 | ad, cus | login | allows user to access their personal account on Fehese database |
