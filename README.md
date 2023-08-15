@@ -17,8 +17,23 @@
 | ad, cus | search book | allows users to find specific books or books related to a certain keyword on the web application |
 | ad, cus | customize profile | enables users to edit their profile information, such as their name, email, address, phone number, password, and more |
 | ad | add books | allows the web application’s administrators to upload new books to the web application’s database |
-| ad | delete books | allows the web application’s administrators to removce books from the web application’s database | 
+| ad | delete books | allows the web application’s administrators to remove books from the web application’s database | 
 | ad | manage orders | allows admin to process, track, view order's details and update order's status such as confirmed, delivered |
 | cus | add to cart | allows users to select and save the books they want to buy on the web application, it also allows users to view, edit, or remove the books in their shopping cart |
 
 ## 2.GUI/SITEMAPS
+## - SITEMAPS
+![](img/sitemap.jpg)
+
+## - GUI/LOGIN
+![](img/login.jpg)
+
+## - GUI/REGISTER
+![](img/register.jpg)
+
+## - GUI/MAINPAGE
+![](img/mainpage.jpg)
+
+## - GUI/DETAIL
+![](img/detail.jpg)
+
