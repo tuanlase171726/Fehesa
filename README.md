@@ -35,7 +35,7 @@
 <img src='img/mainpage.jpg' width='500' height='500'>
 
 ## - GUI/DETAIL
-<img src='img/detail.jpg' width='300' height='200'>
+<img src='img/detail.jpg' width='500' height='500'>
 
 ## - GUI/CART
 <img src='img/cart.jpg' width='500' height='500'>
