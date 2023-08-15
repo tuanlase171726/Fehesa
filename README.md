@@ -31,7 +31,7 @@
 ## - GUI/REGISTER
 <img src='img/register.jpg' width='500' height='500'>
 
-## - GUI/MAINPAGE
+## - GUI/HOMEPAGE
 <img src='img/mainpage.jpg' width='500' height='500'>
 
 ## - GUI/DETAIL
