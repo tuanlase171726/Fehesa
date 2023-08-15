@@ -23,22 +23,22 @@
 
 ## 2.GUI/SITEMAPS
 ## - SITEMAPS
-<img src='img/sitemaps.jpg' width='200'>
+<img src='img/sitemap.jpg' width='500' height='300'>
 
 ## - GUI/LOGIN
-![](img/login.jpg)
+<img src='img/login.jpg' width='500' height='500'>
 
 ## - GUI/REGISTER
-![](img/register.jpg)
+<img src='img/register.jpg' width='500' height='500'>
 
 ## - GUI/MAINPAGE
-![](img/mainpage.jpg)
+<img src='img/mainpage.jpg' width='500' height='500'>
 
 ## - GUI/DETAIL
-![](img/detail.jpg)
+<img src='img/detail.jpg' width='500' height='500'>
 
 ## - GUI/CART
-![](img/cart.jpg)
+<img src='img/cart.jpg' width='500' height='500'>
 
 ## 3.ERD
-![](img/erd.jpg)
+<img src='img/cart.jpg' width='500' height='300'>
