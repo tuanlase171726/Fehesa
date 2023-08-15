@@ -41,4 +41,4 @@
 <img src='img/cart.jpg' width='500' height='500'>
 
 ## 3.ERD
-<img src='img/cart.jpg' width='500' height='300'>
+<img src='img/erd.jpg' width='500' height='300'>
