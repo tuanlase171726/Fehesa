@@ -20,3 +20,5 @@
 | ad | delete books | allows the web application’s administrators to removce books from the web application’s database | 
 | ad | manage orders | allows admin to process, track, view order's details and update order's status such as confirmed, delivered |
 | cus | add to cart | allows users to select and save the books they want to buy on the web application, it also allows users to view, edit, or remove the books in their shopping cart |
+
+## 2.GUI/SITEMAPS
