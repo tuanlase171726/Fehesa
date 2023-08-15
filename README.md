@@ -26,19 +26,19 @@
 <img src='img/sitemap.jpg' width='500' height='300'>
 
 ## - GUI/LOGIN
-<img src='img/login.jpg' width='500' height='500'>
+<img src='img/login.jpg' width='500' height='600'>
 
 ## - GUI/REGISTER
-<img src='img/register.jpg' width='500' height='500'>
+<img src='img/register.jpg' width='500' height='600'>
 
 ## - GUI/HOMEPAGE
-<img src='img/mainpage.jpg' width='500' height='500'>
+<img src='img/mainpage.jpg' width='500' height='600'>
 
 ## - GUI/DETAIL
-<img src='img/detail.jpg' width='500' height='500'>
+<img src='img/detail.jpg' width='500' height='600'>
 
 ## - GUI/CART
-<img src='img/cart.jpg' width='500' height='500'>
+<img src='img/cart.jpg' width='500' height='600'>
 
 ## 3.ERD
 <img src='img/erd.jpg' width='500' height='200'>
