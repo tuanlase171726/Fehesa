@@ -23,7 +23,7 @@
 
 ## 2.GUI/SITEMAPS
 ## - SITEMAPS
-![](img/sitemap.jpg)
+<img src='img/sitemaps.jpg' width='200'>
 
 ## - GUI/LOGIN
 ![](img/login.jpg)
@@ -37,3 +37,8 @@
 ## - GUI/DETAIL
 ![](img/detail.jpg)
 
+## - GUI/CART
+![](img/cart.jpg)
+
+## 3.ERD
+![](img/erd.jpg)
