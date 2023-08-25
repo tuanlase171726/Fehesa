@@ -349,3 +349,86 @@ if (action.equals("updateprofile")){
                 rd.forward(request, response);
             }
 ```
+
+Controller sẽ thực hiện các hành động đã được đề ra theo tên của nó
+- LoginController sẽ quản lý các hành động liên quan tới login của khách hàng lẫn admin
+
+-Hàm này sẽ thoát tài khoản của người dùng
+```
+public void setAdmin(int user_id, String isAdmin){
+        String sql = "update users set isAdmin= ? where user_id = ?";
+        try {
+        conn = new DBContext().getConnection();
+        ps = conn.prepareStatement(sql);
+        ps.setInt(2, user_id);
+        ps.setString(1, isAdmin.toUpperCase());
+        ps.executeUpdate();
+        } catch (Exception e) {
+        }
+        
+    }
+```
+-Hàm này sẽ check xem người dùng là admin hay là customer
+```
+if(action.equals("checklogin")){
+
+                log("Debug user : " + user + " " + password);
+
+                if (user == null && password == null) {
+
+                    log("Debug user : Go to login " + user + " " + password);
+                    RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+                    rd.forward(request, response);
+                } else {
+
+                    log("Debug user : Go to here " + user + " " + password);
+                    UserDAO userDAO = new UserDAO();
+                    UserDTO userDTO = userDAO.login(user, password);
+                    
+                    if (userDTO != null) {
+                        HttpSession session = request.getSession(true);
+                        session.setAttribute("usersession", userDTO);
+                        if (user.equals("admin")) {
+                            response.sendRedirect("book?action=management");
+                        } else {
+                            response.sendRedirect("Cus");
+                        }
+
+                    } else {
+                        request.setAttribute("error", "Wrong username or password");
+                        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+                        rd.forward(request, response);
+                    }
+                }
+            }
+```
+-Hàm này sẽ cho phép người dùng đăng kí tài khoản
+```
+if (action.equals("Register")) {
+                String name = request.getParameter("username");
+                String pass = request.getParameter("password");
+                String confpass = request.getParameter("confpassword");
+                if (name.isEmpty() || pass.isEmpty() || confpass.isEmpty()) {
+                    request.setAttribute("message", "Please fill all the box");
+                    request.getRequestDispatcher("Register.jsp").forward(request, response);
+                }
+                if (!pass.equals(confpass)) {
+                    request.setAttribute("message", "Password does not match!");
+                    request.getRequestDispatcher("Register.jsp").forward(request, response);
+                } else {
+                    UserDAO userDAO = new UserDAO();
+                    UserDTO user1 = userDAO.checkAcc(name);
+                    if (user1 == null) {
+                        userDAO.register(name, password);
+                        request.setAttribute("message", "Register successfully");
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("message", "User name existed");
+                        request.getRequestDispatcher("Register.jsp").forward(request, response);
+                    }
+                }
+            }
+```
+
+CONCLUSION
+Phan Hữu Đức: sau khi làm project này em mới nhận ra là trình độ và sự sắp xếp thời gian của mình còn yếu kém. Ngoài ra sự thiếu giáo tiếp của em với nhừng người trong group đã khiến cho những việc đươc giao cho em trở nên khó khăn hơn. Em nhận ra là về phần tư duy logic của mình thuộc dạng trung bình nhưng về phần code thì còn yếu kém so với các bạn khác. Sau khi học xong môn này lần thứ 2 và làm project cùng với bạn trong nhóm thì em đã học được là nên giao tiếp với bạn và nên code nhiều hơn để tự nâng trình độ của bản thân và tránh làm gánh nặng cho nhóm.
