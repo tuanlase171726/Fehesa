@@ -226,7 +226,7 @@ if (action == null || action.equals("list")) {
                 RequestDispatcher rd = request.getRequestDispatcher("homepage.jsp");
                 rd.forward(request, response);
 ```
-Hàm này sẽ list các sản phẩm ra khi được gọi rồi truyền dữ liệu đến trang quản lý sách (customer feature)
+-Hàm này sẽ list các sản phẩm ra khi được gọi rồi truyền dữ liệu đến trang quản lý sách (customer feature)
 ```
 if (action.equals("management")) {
                 List<BookDTO> list = bookDAO.list(keyword, author);
@@ -237,7 +237,7 @@ if (action.equals("management")) {
             }
 ```
 
-Hàm này sẽ lấy detail của 1 dữ liệu Books thông qua id của nó
+-Hàm này sẽ lấy detail của 1 dữ liệu Books thông qua id của nó
 ```
 if(action.equals("details")){
                 int id = 0;
@@ -257,7 +257,7 @@ if(action.equals("details")){
             
 ```
 
-Hàm này sẽ lấy dữ liệu của 1 books và thêm vào giỏ
+-Hàm này sẽ lấy dữ liệu của 1 books và thêm vào giỏ
 ```
 if(action.equals("Add")){
                 int id = 0;
@@ -273,6 +273,79 @@ if(action.equals("Add")){
                 }
                 request.setAttribute("object", book);
                 RequestDispatcher rd = request.getRequestDispatcher("Cart.jsp");
+                rd.forward(request, response);
+            }
+```
+-Hàm này sẽ lấy dữ liệu của user và hiện ra
+```
+if (action.equals("profile")) {
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException ex) {
+                }
+                UserDAO userDAO = new UserDAO();
+                UserDTO user1 = null;
+                if(id!=0){
+                    user1 = userDAO.getuser(id);
+                }
+                request.setAttribute("object", user1);
+                RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
+                rd.forward(request, response);
+            }
+```
+-Hàm này cho phép người dùng edit lại profile của mình
+```
+if(action.equals("Edit")){
+                int id = 0;
+                try{
+                    id = Integer.parseInt(request.getParameter("id"));
+                }catch(NumberFormatException ex){
+                    
+                }
+                UserDTO user = null;
+                UserDAO userDAO = new UserDAO();
+                if(id != 0){
+                    user = userDAO.getuser(id);
+                }
+                request.setAttribute("object", user);
+                RequestDispatcher rd = request.getRequestDispatcher("editprofile.jsp");
+                rd.forward(request, response);
+            }
+```
+-Hàm này sẽ lưu lại dữ liệu người dùng đã nhập qua bằng edit và sửa lại profile
+```
+if (action.equals("updateprofile")){
+                int id = 0;
+                try{
+                    id = Integer.parseInt(request.getParameter("id"));
+                }catch(NumberFormatException ex){
+                }
+                String fullname = request.getParameter("fullname");
+                String address = request.getParameter("address");
+                String phone = request.getParameter("phone");
+                String email = request.getParameter("email");
+                String day = request.getParameter("day");
+                String month = request.getParameter("month");
+                String year = request.getParameter("year");
+                String dob = month+"/"+day+"/"+year;
+                
+                
+                UserDAO userDAO = new UserDAO();
+                UserDTO user = new UserDTO();
+                user.setId(id);
+                user.setFullname(fullname);
+                user.setAddr(address);
+                user.setPhone(phone);
+                user.setEmail(email);
+                user.setDOB(dob);
+                user.setRole("Customer");
+                
+                
+                userDAO.update(id, fullname, address, phone, email, dob);
+                user=userDAO.getuser(id);
+                request.setAttribute("object", user);
+                RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
                 rd.forward(request, response);
             }
 ```
