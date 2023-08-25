@@ -43,6 +43,17 @@
 ## 3.ERD
 <img src='img/erd.jpg' width='500' height='200'>
 
+-Trong BookDTO sẽ chứa những dữ liệu
+```
+    private int id;
+    private String name,author,category;
+    private int authorID, categoryID;
+    private int price;
+    private String status;
+    private String description;
+    private String img_url;
+```
+-Trong bookDAO sẽ chứa các chức năng
 -Tìm kiếm tên sách và tên tác giả sau đó list ra dữ liệu bảng Books
 ```
 public List<BookDTO> list(String keyword, String author) {
