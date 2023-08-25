@@ -430,5 +430,132 @@ if (action.equals("Register")) {
             }
 ```
 
+-Trong UserDTO sẽ chứa những dữ liệu
+```
+    private int id;
+    private String username;
+    private String fullname;
+    private String addr;
+    private String phone;
+    private String email;
+    private String DOB;
+    private String role;
+```
+-Trong UserDAO sẽ chứa các chức năng
+ -Cho phép người dùng login vào web
+```
+public UserDTO login(String user, String password){
+        
+        String sql = "select userID, username from Users "
+                + " where username = ? and password = ?";
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            
+            ps.setString(1, user);
+            ps.setString(2, password);
+            
+            
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                
+                UserDTO userDTO =  new UserDTO();
+                userDTO.setUsername(rs.getString("username"));
+                userDTO.setId(rs.getInt("UserID"));
+                
+                return userDTO;
+                
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println("Query Book error!" + ex.getMessage());
+        }
+        return null;
+    }
+```
+-Cho phép người dùng đăng kí
+```
+public void register(String username,  String password){
+        String sql = "INSERT users(username, password, role)"
+                + "VALUES (?,?,?)";
+        try{
+            Connection con = DBUtils.getConnection();
+            PreparedStatement ps = con.prepareCall(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, "Customer");
+            ps.executeUpdate();
+        }catch(SQLException e){  
+        };
+    }
+```
+- Kiểm tra xem tài khoản người dùng tạo ra đã có trong db hay chưa
+```
+public UserDTO checkAcc(String username){
+        try{
+            String sql="SELECT * FROM users WHERE username = ?";
+            Connection con = DBUtils.getConnection();
+            PreparedStatement ps = con.prepareCall(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                UserDTO user = new UserDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                return user;
+            }
+        }catch(Exception e){
+            
+        }
+        return null;
+    }
+```
+- Chỉnh lai thông tin của người dùng
+```
+public void update(int id, String fullname, String address, String phone, String email, String dob){
+        String sql="UPDATE users SET fullname = ?, Addr = ?, Phone= ?, Email = ?, DOB = ? WHERE userID = ?";
+        try{
+            Connection con = DBUtils.getConnection();
+            PreparedStatement ps = con.prepareCall(sql);
+            ps.setString(1, fullname);
+            ps.setString(2, address);
+            ps.setString(3, phone);
+            ps.setString(4, email);
+            ps.setString(5, dob);
+            ps.setInt(6, id);
+            ps.executeUpdate();
+        }catch(SQLException e){
+        }
+    }
+```
+
+-Lấy thông tin của người dùng thông qua id
+```
+public UserDTO getuser(int id){
+        String sql ="SELECT userID, username, fullname , Addr, Phone, Email, DOB, role FROM users WHERE userID = ?";
+        try{
+            Connection con = DBUtils.getConnection();
+            PreparedStatement ps = con.prepareCall(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return new UserDTO(rs.getInt("userID"),
+                        rs.getString("username"),
+                        rs.getString("fullname"),
+                        rs.getString("Addr"),
+                        rs.getString("Phone"),
+                        rs.getString("Email"),
+                        rs.getString("DOB"),
+                        rs.getString("role")
+                );
+            }
+        }catch(SQLException e){
+            }
+        return null;
+    }
+```
 CONCLUSION
 Phan Hữu Đức: sau khi làm project này em mới nhận ra là trình độ và sự sắp xếp thời gian của mình còn yếu kém. Ngoài ra sự thiếu giáo tiếp của em với nhừng người trong group đã khiến cho những việc đươc giao cho em trở nên khó khăn hơn. Em nhận ra là về phần tư duy logic của mình thuộc dạng trung bình nhưng về phần code thì còn yếu kém so với các bạn khác. Sau khi học xong môn này lần thứ 2 và làm project cùng với bạn trong nhóm thì em đã học được là nên giao tiếp với bạn và nên code nhiều hơn để tự nâng trình độ của bản thân và tránh làm gánh nặng cho nhóm.
+
+- Phạm Huỳnh Xuân Đăng: là một leader, em cảm thấy mình còn quá yếu kém trong việc quản lý nhân sự. Khi mình hoặc các thành viên không xác định được điểm mạnh và yếu của bản thân thì ta nên giao task VÀ DEADLINE cho họ, nếu họ không làm được trong khoản thời gian đó thì nên chuyển task đó ngay lập tức cho người khác xử lý, tránh mất mát thêm thời gian vô ích. Giao tiếp nhiều và khiến mọi người có động lực là những gì em cố gắng làm với mọi người nhưng vẫn chưa thực sự hiệu quả. Ngày đầu tiên mà mọi người lên thuyết trình sản phẩm thực sự khiến em cảm thấy như bị khủng hoảng tâm lý, vì so với sản phẩm của nhóm mình thì của mọi người ai cũng làm rất là tốt, ít nhất là về phần nhìn của sản phẩm. Em mong là những kinh nghiệm này sẽ giúp ích cho bản thân ở những kỳ sau này và cho đường đời còn dài phía trước.
+
+Lê Anh Tuấn: qua môn học PRJ301, em đã tiếp thu được thêm rất nhiều kiến thức hữu ích về cách xây dựng trang jsp, việc điều phối các chức năng qua các controller, ngoài ra cũng là 1 dịp đáng giá để em nhìn nhận lại kiến thức về css và html của chính bản thân mình. Về cá nhân em, em đồng thời nhận ra các mặt thiếu sót về kĩ năng code và làm việc nhóm của bản thân mình, khả năng tự học của em vẫn còn kém trong phạm vi trong lớp. Cuối cùng thì em xin cảm ơn thầy và các bạn đã luôn support và đóng góp thêm những kinh nghiệm đi làm cũng như kĩ năng code cho nhóm em. Em xin cảm ơn!
+
