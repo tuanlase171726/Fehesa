@@ -213,3 +213,66 @@ public boolean delete(int id) {
         return false;
     }
 ```
+
+Controller sẽ thực hiện các hành động đã được đề ra theo tên của nó
+- CusController sẽ quản lý các hành động liên quan tới tương tác của khách hàng
+
+-Hàm này sẽ list các sản phẩm ra khi được gọi rồi truyền dữ liệu đến trang chủ
+```
+if (action == null || action.equals("list")) {
+                List<BookDTO> list = bookDAO.list(keyword, author);
+
+                request.setAttribute("list", list);
+                RequestDispatcher rd = request.getRequestDispatcher("homepage.jsp");
+                rd.forward(request, response);
+```
+Hàm này sẽ list các sản phẩm ra khi được gọi rồi truyền dữ liệu đến trang quản lý sách (customer feature)
+```
+if (action.equals("management")) {
+                List<BookDTO> list = bookDAO.list(keyword, author);
+
+                request.setAttribute("list", list);
+                RequestDispatcher rd = request.getRequestDispatcher("cusbooklist.jsp");
+                rd.forward(request, response);
+            }
+```
+
+Hàm này sẽ lấy detail của 1 dữ liệu Books thông qua id của nó
+```
+if(action.equals("details")){
+                int id = 0;
+                
+                try{
+                    id = Integer.parseInt(request.getParameter("id"));
+                }catch(NumberFormatException ex){
+                    System.out.println("error " + ex.getMessage());
+                }
+                BookDTO book = null;
+                if(id != 0){
+                    book = bookDAO.load(id);
+                }
+                request.setAttribute("object", book);
+                RequestDispatcher rd = request.getRequestDispatcher("bookdetails.jsp");
+                rd.forward(request, response);
+            
+```
+
+Hàm này sẽ lấy dữ liệu của 1 books và thêm vào giỏ
+```
+if(action.equals("Add")){
+                int id = 0;
+                
+                try{
+                    id = Integer.parseInt(request.getParameter("id1"));
+                }catch(NumberFormatException ex){
+                    System.out.println("error " + ex.getMessage());
+                }
+                BookDTO book = null;
+                if(id != 0){
+                    book = bookDAO.load(id);
+                }
+                request.setAttribute("object", book);
+                RequestDispatcher rd = request.getRequestDispatcher("Cart.jsp");
+                rd.forward(request, response);
+            }
+```
