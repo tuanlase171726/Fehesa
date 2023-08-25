@@ -42,3 +42,86 @@
 
 ## 3.ERD
 <img src='img/erd.jpg' width='500' height='200'>
+
+-Tìm kiếm tên sách và tên tác giả sau đó list ra dữ liệu bảng Books
+```
+public List<BookDTO> list(String keyword, String author) {
+        ArrayList<BookDTO> list = new ArrayList<BookDTO>();
+
+        String sql = "SELECT b.BookID, Bookname, a.AuthorName, c.CateName, b.AuthorID, b.CateID, Price,Status, b.Description, i.url\n"
+                + " FROM Books AS b\n"
+                + " left join Author AS a\n"
+                + " ON b.AuthorID = a.AuthorID\n"
+                + " left join Category AS c\n"
+                + " ON b.CateID = c.CateID\n"
+                + " left join Image AS i\n"
+                + " ON b.BookID = i.BookID\n";
+
+        String where = "";
+        String whereJoinWord = " WHERE ";
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            where += whereJoinWord;
+            where += " (Bookname LIKE ? OR Bookname LIKE ? OR AuthorName Like ? OR AuthorName Like ?)";
+            whereJoinWord = " AND ";
+            sql += where;
+        }
+        try {
+            Connection con = DBUtils.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+
+            int index = 1;
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                stm.setString(index, "%"+keyword+"%");
+                index++;
+                stm.setString(index, "%"+keyword+"%");
+                index++;
+                stm.setString(index, "%"+keyword+"%");
+                index++;
+                stm.setString(index, "%"+keyword+"%");
+                index++;
+            }
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                list.add(new BookDTO(
+                        rs.getInt("BookID"),
+                        rs.getString("Bookname"),
+                        rs.getString("AuthorName"),
+                        rs.getString("CateName"),
+                        rs.getInt("AuthorID"),
+                        rs.getInt("CateID"),
+                        rs.getInt("Price"),
+                        rs.getString("Status"),
+                        rs.getString("Description"),
+                        rs.getString("url")
+                ));
+
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println("Query book error. " + e.getMessage());
+        }
+        return null;
+    }
+```
+-Thêm dữ liệu bảng Books
+```
+public int insert(BookDTO book) {
+        String sql = "INSERT INTO Books (Bookname, AuthorID, CateID, Price, Status, Description) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            Connection con = DBUtils.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setString(1, book.getName());
+            stm.setInt(2, book.getAuthorID());
+            stm.setInt(3, book.getCategoryID());
+            stm.setInt(4, book.getPrice());
+            stm.setString(5, book.getStatus());
+            stm.setString(6, book.getDescription());
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Insert book error" + e.getMessage());
+        }
+        return 0;
+    }
+```
