@@ -54,7 +54,8 @@
     private String img_url;
 ```
 -Trong bookDAO sẽ chứa các chức năng
--Tìm kiếm tên sách và tên tác giả sau đó list ra dữ liệu bảng Books
+
+--Tìm kiếm tên sách và tên tác giả sau đó list ra dữ liệu bảng Books
 ```
 public List<BookDTO> list(String keyword, String author) {
         ArrayList<BookDTO> list = new ArrayList<BookDTO>();
@@ -115,7 +116,7 @@ public List<BookDTO> list(String keyword, String author) {
         return null;
     }
 ```
--Thêm dữ liệu bảng Books
+--Thêm 1 dữ liệu Books
 ```
 public int insert(BookDTO book) {
         String sql = "INSERT INTO Books (Bookname, AuthorID, CateID, Price, Status, Description) VALUES (?, ?, ?, ?, ?, ?)";
@@ -134,5 +135,81 @@ public int insert(BookDTO book) {
             System.out.println("Insert book error" + e.getMessage());
         }
         return 0;
+    }
+```
+--Sửa 1 dữ liệu bảng Books thông qua id của nó
+```
+public boolean update(BookDTO book) {
+        String sql = "UPDATE books SET Bookname = ?, AuthorID = ?, CateID = ?, Price = ?, Status = ?, Description = ? WHERE BookID = ?";
+        try {
+            Connection con = DBUtils.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setString(1, book.getName());
+            stm.setInt(2, book.getAuthorID());
+            stm.setInt(3, book.getCategoryID());
+            stm.setInt(4, book.getPrice());
+            stm.setString(5, book.getStatus());
+            stm.setString(6, book.getDescription());
+            stm.setInt(7, book.getId());
+            if (stm.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Update book error " + e.getMessage());
+        }
+        return false;
+    }
+```
+--Lấy 1 dữ liệu của Books thông qua id của nó
+```
+public BookDTO load(int id) {
+        String sql = "SELECT b.BookID, Bookname, a.AuthorName, c.CateName, b.AuthorID, b.CateID, Price,Status, b.Description, i.url\n"
+                + " FROM Books AS b\n"
+                + " left join Author AS a\n"
+                + " ON b.AuthorID = a.AuthorID\n"
+                + " left join Category AS c\n"
+                + " ON b.CateID = c.CateID\n"
+                + " left join Image AS i\n"
+                + " ON b.BookID = i.BookID\n"
+                + " WHERE b.BookID = ?";
+        try {
+            Connection con = DBUtils.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new BookDTO(
+                        rs.getInt("BookID"),
+                        rs.getString("Bookname"),
+                        rs.getString("AuthorName"),
+                        rs.getString("CateName"),
+                        rs.getInt("AuthorID"),
+                        rs.getInt("CateID"),
+                        rs.getInt("Price"),
+                        rs.getString("Status"),
+                        rs.getString("Description"),
+                        rs.getString("url"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Query book error" + e.getMessage());
+        }
+        return null;
+    }
+```
+--Xóa 1 dữ liệu 
+```
+public boolean delete(int id) {
+        String sql = "DELETE FROM Image WHERE BookID = ?";
+        try {
+            Connection con = DBUtils.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, id);
+            if (stm.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Delete book error" + e.getMessage());
+        }
+        return false;
     }
 ```
